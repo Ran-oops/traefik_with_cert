@@ -1,0 +1,19 @@
+tls:
+    certificates:
+        -   certFile: /certs/cert.pem
+            keyFile: /certs/key.pem
+http:
+    routers:
+        traefik_dashboard:
+            rule: Host(`traefik.m.local`)
+            service: api@internal
+            tls: { }
+        jenkins:
+          rule: "Host(`jenkins.m.local`)"
+          service: "jenkins"
+          tls: { }
+    services:
+      jenkins:
+        loadBalancer:
+          servers:
+            - url: "http://jenkins:8080"
